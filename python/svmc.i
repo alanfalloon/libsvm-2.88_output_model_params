@@ -57,6 +57,11 @@ void svm_destroy_model(struct svm_model *model);
 const char *svm_check_parameter(const struct svm_problem *prob, const struct svm_parameter *param);
 int svm_check_probability_model(const struct svm_model *model);
 
+double  svm_get_model_rho(struct svm_model *model);
+int  svm_get_model_num_coefs(struct svm_model *model);
+void svm_get_model_coefs(struct svm_model *model, double* out_array);
+void svm_get_model_perm(struct svm_model *model, int* out_array);
+
 %include carrays.i		
 %array_functions(int,int)
 %array_functions(double,double)

@@ -1705,6 +1705,48 @@ struct svm_model
 				// 0 if svm_model is created by svm_train
 };
 
+// Get the rho element of the model. Only works when there are two
+// labels (1 classifier).
+double svm_get_model_rho(struct svm_model *model)
+{
+  if (model->nr_class > 2)
+    info("warning: rho requested for model with more than 2 labels");
+  return model->rho[0];
+}
+
+int svm_get_model_num_coefs(struct svm_model *model)
+{
+  return model->l;
+}
+
+// Get the coefficients of the model. Only works when there are two
+// labels (1 classifier).
+void svm_get_model_coefs(struct svm_model *model, double* out_array)
+{
+  if (model->nr_class > 2)
+    info("warning: coefficients requested for model with more than 2 labels");
+  memcpy(out_array, model->sv_coef[0], sizeof(double) * model->l);
+}
+
+// Get the permutation of the indices of the coefficients w.r.t. to the input problem.
+void svm_get_model_perm(struct svm_model *model, int* out_array)
+{
+  if (model->nr_class > 2)
+    info("warning: permutation requested for model with more than 2 labels");
+  int i;
+  for ( i = 0; i < model->l; ++i)
+  {
+    struct svm_node* n = model->SV[i];
+    if (0 != n->index)
+    {
+      info("warning: missing 0 index");
+      out_array[i] = -1;
+    }
+    else
+      out_array[i] = (int)n->value;
+  }
+}
+
 // Platt's binary SVM Probablistic Output: an improvement from Lin et al.
 void sigmoid_train(
 	int l, const double *dec_values, const double *labels, 

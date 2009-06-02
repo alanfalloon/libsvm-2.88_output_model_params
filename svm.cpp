@@ -34,7 +34,7 @@ inline double powi(double base, int times)
 #define INF HUGE_VAL
 #define TAU 1e-12
 #define Malloc(type,n) (type *)malloc((n)*sizeof(type))
-#if 0
+#if 1
 static void info(const char *fmt,...)
 {
 	va_list ap;
@@ -1710,7 +1710,7 @@ struct svm_model
 double svm_get_model_rho(struct svm_model *model)
 {
   if (model->nr_class > 2)
-    info("warning: rho requested for model with more than 2 labels");
+    info("warning: rho requested for model with more than 2 labels\n");
   return model->rho[0];
 }
 
@@ -1724,7 +1724,7 @@ int svm_get_model_num_coefs(struct svm_model *model)
 void svm_get_model_coefs(struct svm_model *model, double* out_array)
 {
   if (model->nr_class > 2)
-    info("warning: coefficients requested for model with more than 2 labels");
+    info("warning: coefficients requested for model with more than 2 labels\n");
   memcpy(out_array, model->sv_coef[0], sizeof(double) * model->l);
 }
 
@@ -1732,7 +1732,7 @@ void svm_get_model_coefs(struct svm_model *model, double* out_array)
 void svm_get_model_perm(struct svm_model *model, int* out_array)
 {
   if (model->nr_class > 2)
-    info("warning: permutation requested for model with more than 2 labels");
+    info("warning: permutation requested for model with more than 2 labels\n");
   int i;
   for ( i = 0; i < model->l; ++i)
   {

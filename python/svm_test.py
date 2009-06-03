@@ -56,3 +56,15 @@ problem = svm_problem(labels, samples);
 param = svm_parameter(kernel_type=PRECOMPUTED,C = 10,nr_weight = 2,weight_label = [1,0],weight = [10,1])
 model = svm_model(problem, param)
 pred_label = model.predict(samples[0])
+
+import svm_raw, numpy
+labels = [max(x,1) for x in labels] # Only works on problems of two labels
+problem = svm_problem(labels, samples);
+param = svm_parameter(kernel_type=PRECOMPUTED, C = 10)
+model = svm_model(problem, param)
+alpha0, b0 = svm_raw.get_alpha_b(model)
+print "alpha0 =",alpha0,"b0 =",b0
+
+K = [s[1:] for s in samples] # numeric labels added for you
+alpha1, b1 = svm_raw.svm(labels, K, C=10)
+print "alpha1 =",alpha1,"b1 =",b1
